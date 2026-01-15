@@ -1,16 +1,20 @@
 TT_DOT = []
 TT_LOG = []
+TT_INPUT = []
 TT_RARROW = []
 TT_QUOTE = []
 TT_IDENTIFIER = []
+TT_COMMA = []
 
 def tokenize(file_path):
-	global TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER
+	global TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER, TT_INPUT, TT_COMMA
 	TT_DOT = []
 	TT_LOG = []
 	TT_RARROW = []
 	TT_QUOTE = []
 	TT_IDENTIFIER = []
+	TT_INPUT = []
+	TT_COMMA = []
 
 	with open(file_path, "r") as f:
 		content = f.read()
@@ -36,6 +40,9 @@ def tokenize(file_path):
 		elif char == '>':
 			TT_RARROW.append(char)
 			
+		elif char == ',':
+			TT_COMMA.append(char)
+			
 
 		elif char.isalpha():
 			word = char
@@ -45,10 +52,12 @@ def tokenize(file_path):
 				i += 1
 			if word.lower() == 'log':
 				TT_LOG.append(word)
+			if word.lower() == 'input':
+				TT_LOG.append(word)
 			else:
 				TT_IDENTIFIER.append(word)
 			continue
 
 		i += 1
 
-	return TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER
+	return TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER, TT_INPUT, TT_COMMA
