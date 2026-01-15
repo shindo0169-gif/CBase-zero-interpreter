@@ -16,7 +16,7 @@ class ASTNode:
 		return ret
 
 def parse(file_path):
-	TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER = tokenize(file_path)
+	TT_DOT, TT_LOG, TT_RARROW, TT_QUOTE, TT_IDENTIFIER, TT_INPUT, TT_COMMA = tokenize(file_path)
 	ast_root = ASTNode("PROGRAM")
 	
 	for i, token in enumerate(TT_IDENTIFIER):
@@ -40,5 +40,25 @@ def parse(file_path):
 			node.add_child(ASTNode("DOT", TT_DOT.pop(0)))
 			
 		ast_root.add_child(node)
+		
+	for input_token in TT_INPUT:
+		node = ASTNode("INPUT_STATEMENT")
+		
+		if TT_RARROW:
+			node.add_child(ASTNode("RARROW", TT_RARROW.pop(0)))
+			
+		if TT_QUOTE:
+			node.add_child(ASTNode("STRING", TT_QUOTE.pop(0)))
+		if TT_COMMA:
+				node.add_child(ASTNode("COMMA", TT_COMMA.pop(0)))
+		if TT_IDENTIFIER:
+					node.add_child(ASTNode("IDENTIFIER", TT_IDENTIFIER.pop(0)))
+			
+		if TT_DOT:
+			node.add_child(ASTNode("DOT", TT_DOT.pop(0)))
+			
+		if TT_LOG:
+			node.add_child(ASTNode("LOG", TT_LOG.pop(0)))
+			
 
 	return ast_root
